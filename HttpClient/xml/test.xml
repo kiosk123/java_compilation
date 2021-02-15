@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<root>
+   <header>
+      <globalid>00000001</globalid>
+      <interfaceid>SYSTEM001</interfaceid>
+      <res_code>SYNC</res_code>
+      <res_message>데이터</res_message>
+   </header>
+   <data name="내데이터">
+      <item>SHIRT</item>
+      <color>RED</color>
+      <length>95</length>
+   </data>
+</root>

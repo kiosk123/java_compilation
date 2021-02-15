@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="package" name="board">
+
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="project.name" value="board" />
+	<property name="project.web.dir" value="WebContent" />
+	<property name="project.src.dir" value="src" />
+	<property name="project.classes.dir" value="build/classes" />
+	<property name="project.lib.dir" value="${project.web.dir}/WEB-INF/lib" />
+	<property name="project.runtime.lib" value="C:\dev\apache-tomcat-7.0.73\lib" />
+	<property name="project.war" value="${project.name}.war" />
+
+
+	<path id="classpath.runtime">
+		<fileset dir="${project.runtime.lib}" includes="*.jar" />
+	</path>
+	
+	<path id="classpath.lib">
+		<fileset dir="${project.lib.dir}" includes="*.jar" />
+	</path>
+	<path id="project.classpath">
+		<pathelement location="${project.classes.dir}" />
+		<path refid="classpath.runtime" />
+		<path refid="classpath.lib" />
+	</path>
+
+	<target name="init">
+		<mkdir dir="${project.classes.dir}" />
+		<copy includeemptydirs="false" todir="${project.classes.dir}">
+			<fileset dir="src">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="clean">
+		<delete dir="${project.classes.dir}" />
+		<delete dir="${project.war}" />
+	</target>
+
+	<target name="compile" depends="init" description="Compile Process JAVA in board">
+		<echo message="${project.name} is compiled" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${project.classes.dir}" includeantruntime="false">
+			<src path="${project.src.dir}" />
+			<classpath refid="project.classpath" />
+		</javac>
+
+	</target>
+	<target depends="compile" name="package" description="Package board project">
+		<war destfile="${project.war}" index="true" needxmlfile="true">
+			<classes dir="${project.classes.dir}" />
+			<lib dir="${project.lib.dir}" />
+			<fileset dir="${project.web.dir}">
+				<include name="**/*.*" />
+			</fileset>
+		</war>
+	</target>
+
+</project>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- default는 어떤 타겟을 먼저 수행할 것이냐? basedir=베이스 경로  -->
+<project name="DataTele" default="dist" basedir=".">
+  
+  <description>DataTele program</description>
+  
+  <!-- 프로퍼티 값은 basedir을 기준으로... 여기서는 속성만 정의 한 것이다 -->
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="dist" location="dist"/>
+
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init"
+        description="compile the source">
+    <!-- Compile the java code from ${src} into ${build} debug는 빌드과정 자세히 보고 싶을때 -->
+    <javac srcdir="${src}" destdir="${build}" source="1.7" target="1.7" debug="true"/>
+  </target>
+
+  <!-- dist는 compile이라는 타겟에 의존적임  -->
+  <target name="dist" depends="compile" description="generate the distribution">
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <!-- ${build}경로에 있는 것들을 묶어서  ${dist}/lib/${ant.project.name}.jar"에 jar 파일 만듬-->
+    <jar jarfile="${dist}/lib/${ant.project.name}.jar" basedir="${build}">
+    	<!-- java -jar 파일명.jar 만 쳐서 실행할 수 있게 하는 방법 -->
+    	<manifest>
+    		<attribute name="Main-Class" value="test.TestClient"/>
+    	</manifest>
+    </jar>
+    
+  </target>
+
+  <target name="clean" description="clean up">
+    <!-- Delete the ${build} and ${dist} directory trees 컴파일한 것 삭제-->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+</project>
